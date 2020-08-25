@@ -1,0 +1,133 @@
+Sub randRawCircle()
+'
+
+    Dim numBSku As Long
+    Dim i As Long
+    i = 1
+    Dim j As Long
+    j = 0
+    Dim numRow As Long
+    Dim numCol As Long
+    Dim rowDirection As Integer '+1 to the right, -1 to the left
+    
+    Dim colDirection As Integer '+1 to the down, -1 to the up
+    
+    Dim direction As String '-1 for row, +1 for col
+    
+    Dim size As Long
+    Dim myValue As Variant
+    
+    myValue = InputBox("size of the box?")
+    
+    
+    direction = "right"
+    
+     
+    size = myValue
+    numRow = size * 2
+    numCol = size
+    Cells.FormatConditions.Delete
+    Cells.ClearContents
+    
+    Range("b2").Select
+    Do
+        Select Case direction
+        Case "right"
+            For j = 1 To numCol
+                ActiveCell = i
+                ActiveCell.Offset(0, 1).Select
+                i = i + 1
+            Next
+            ActiveCell.Offset(1, -1).Select
+            direction = "down"
+            numRow = numRow - 1
+            
+        Case "left"
+            For j = 1 To numCol
+                ActiveCell = i
+                ActiveCell.Offset(0, -1).Select
+                i = i + 1
+
+            Next
+            direction = "up"
+            ActiveCell.Offset(-1, 1).Select
+            numRow = numRow - 1
+        Case "up"
+            For j = 1 To numRow
+                ActiveCell = i
+                ActiveCell.Offset(-1, 0).Select
+                i = i + 1
+            Next
+            ActiveCell.Offset(1, 1).Select
+            direction = "right"
+            numCol = numCol - 1
+            
+        Case "down"
+            For j = 1 To numRow
+                ActiveCell = i
+                ActiveCell.Offset(1, 0).Select
+                i = i + 1
+            Next
+            ActiveCell.Offset(-1, -1).Select
+            direction = "left"
+            numCol = numCol - 1
+    End Select
+   Loop While (i < size * size * 2)
+   
+   ActiveCell = size * size * 2
+        
+        
+  '      If ActiveCell > 0 Then
+  '      i = i - 1
+   '     Else
+      ' ActiveCell = Worksheets("symbols").Cells(Int((48 - 1 + 1) * Rnd + 1), 1)
+    '    ActiveCell = i
+     '   End If
+      '
+       ' If ActiveCell.Row = 1 Then
+        '    numRow = numRow + 1
+       ' Else
+      '      numRow = Int((3 - 1 + 1) * Rnd + 1) - 2
+      '  End If
+            
+       ' If ActiveCell.Column = 1 Then
+        '    numCol = numCol + 1
+        'Else
+         '   numCol = Int((3 - 1 + 1) * Rnd + 1) - 2
+      '  End If
+        
+     '   ActiveCell.Offset(numRow, numCol).Select
+      
+   
+   Range("b2", Cells(size * 2 + 1, size + 1)).Select
+    
+   Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+        
+    
+       
+End Sub
+Sub Button3_Click()
+
+End Sub
+
+
